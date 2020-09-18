@@ -14,19 +14,31 @@ for (var i = 12; i > -12; i--) {
     var startingHour = moment().add(-i, 'hours').format('hA');
 
     var hour = $("<section>").addClass("row time-block");
-    var time = $("<div>").addClass("col-md-1 hour");
+    var time = $("<div>").addClass("col-md-1 hour font-weight-bold");
     var userEvent = $("<textarea>").addClass("col-md-8 description");
     var save = $("<button>").addClass("col-md-1 saveBtn");
     var btn = $("<i>").attr( "i", "hover");
+    //Create color code for past/present/future
+    if (startingHour < moment().format('hA')) {
+        userEvent.addClass("past");
+    }
+    else if (startingHour > moment().format('hA')) {
+        userEvent.addClass("future");
+    }
+    else if (startingHour = moment().format('hA')) {
+        userEvent.addClass("present");
+    }
     //Appending each element to the page
     save.append(btn);
-    hour.text(startingHour);
+    time.text(startingHour);
     hour.append(time);
     hour.append(userEvent);
     hour.append(save);
+    
     $(".container").append(hour);
 }}
+
 //TODO: Save event to localstorage
 
-console.log(moment().format('HH'))
+console.log(moment().format('hA'))
 
