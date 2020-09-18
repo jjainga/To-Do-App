@@ -1,33 +1,55 @@
 
 //TODO: Set current date in top p tag
 
-var today = moment().format('MMMM Do YYYY, H:mm:ss a');
+var today = moment().format('MMMM Do YYYY, h:mm a');
 console.log(today);
 //Create Current day at top of page
 $("#currentDay").text(today);
+var currentTime = Number(moment().format('H'));
+console.log(currentTime);
+//TODO:// Create an Array to Save Events
+var savedEvents = [];
+var task = {
+    eventTime: " ",
+    eventDescription: " "
+    }
 
 //TODO: Create grid and buttons to save
 todayEvents();
 function todayEvents() {
-for (var i = 12; i > -12; i--) {
+for (var i = 9; i < 19; i++) {
     //Creating elements for each variable and setting classes and attibutes
-    var startingHour = moment().add(-i, 'hours').format('hA');
+    if (i >= 12) {
+        var ampm = "PM";
+    }
+    else if (i < 12) {
+        var ampm = "AM";
+    }
+    var startingHour = i + ampm;
 
+    console.log(i);
+    console.log(startingHour);
+    //Create Row for each event
     var hour = $("<section>").addClass("row time-block");
-    var time = $("<div>").addClass("col-md-1 hour font-weight-bold");
-    var userEvent = $("<textarea>").addClass("col-md-8 description");
-    var save = $("<button>").addClass("col-md-1 saveBtn");
-    var btn = $("<i>").attr( "i", "hover");
+    //Create Hour col
+    var time = $("<div>").addClass("col-md-1 hour font-weight-bold").attr("id", "time" + i);
+    //Create descrition text area
+    var userEvent = $("<textarea>").addClass("col-md-8 description").attr("id", "description" + i);
+    //Create button
+    var save = $("<button>").addClass("col-md-1 saveBtn").attr("id", "save" + i);
+    //Create icon
+    var btn = $("<i>").addClass("far fa-save").attr( "i", "hover");
     //Create color code for past/present/future
-    if (startingHour < moment().format('hA')) {
+    if (i < currentTime) {
         userEvent.addClass("past");
     }
-    else if (startingHour > moment().format('hA')) {
+    else if (i > currentTime) {
         userEvent.addClass("future");
     }
-    else if (startingHour = moment().format('hA')) {
+    else {
         userEvent.addClass("present");
     }
+    
     //Appending each element to the page
     save.append(btn);
     time.text(startingHour);
@@ -38,7 +60,19 @@ for (var i = 12; i > -12; i--) {
     $(".container").append(hour);
 }}
 
-//TODO: Save event to localstorage
-
-console.log(moment().format('hA'))
-
+//TODO: Save click event to localstorage
+$(".container").on("click", '.saveBtn', function (event) {
+    var textArea = $(this).siblings('textarea').val().trim();
+    var timeArea = $(this).siblings('div').text();
+        console.log(textArea);
+        console.log(timeArea);
+    //push to object
+    task.eventTime = timeArea;
+    task.eventDescription = textArea;
+        console.log(task);
+    savedEvents.push(task);
+        console.log(savedEvents);
+    var stringOfSaves = JSON.stringify(savedEvents);
+        console.log(stringOfSaves);
+    localStorage.setItem("Saved Events", stringOfSaves);
+})
