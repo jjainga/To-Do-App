@@ -84,7 +84,7 @@ $(".container").on("click", '.saveBtn', function (event) {
     task.eventTime = timeArea;
     task.eventDescription = textArea;
     task.eventDay = theDay;
-         console.log(task);
+        //  console.log(task);
     savedEvents.push(task);
         // console.log(savedEvents);
     var stringOfSaves = JSON.stringify(savedEvents);
