@@ -74,10 +74,13 @@ $(".container").on("click", '.saveBtn', function (event) {
         // console.log(timeArea);
         // console.log(theDay);
     
-    //Reseting savearray
-    // savedEvents = JSON.parse(localStorage.getItem("SavedEvents"));
-    //push to object the savedEvents array
-    console.log(savedEvents);
+    // push to object the savedEvents array
+    if (savedEvents == null ) {
+        savedEvents = [];
+    }
+    else if (savedEvents != null) (
+        savedEvents = JSON.parse(localStorage.getItem("SavedEvents"))
+    )
     task.eventTime = timeArea;
     task.eventDescription = textArea;
     task.eventDay = theDay;
@@ -92,7 +95,7 @@ $(".container").on("click", '.saveBtn', function (event) {
 getEvents();
 //TODO:// Get info from saved events
 function getEvents () {
-         savedEvents = JSON.parse(localStorage.getItem("SavedEvents"));
+    savedEvents = JSON.parse(localStorage.getItem("SavedEvents"));
     if (savedEvents != null) {
 
    for( var j = 0; j < savedEvents.length; j++) {
