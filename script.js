@@ -9,23 +9,25 @@ $("#currentDay").text(today);
 var currentTime = Number(moment().format('H'));
     // console.log(currentTime);
 //TODO:// Create an Array to Save Events
-var savedEvents = [{}];
+var savedEvents = [];
 var task = {
     eventTime: " ",
-    eventDescription: " ",
+    eventDescription:  " ",
     eventDay: " "
 }
+
 
 //TODO: Create grid and buttons to save
 todayEvents();
 function todayEvents() {
 for (var i = 9; i < 18; i++) {
+    var ampm = " ";
     //Creating elements for each variable and setting classes and attibutes
     if (i >= 12) {
-        var ampm = "PM";
+        ampm = "PM";
     }
     else if (i < 12) {
-        var ampm = "AM";
+        ampm = "AM";
     }
     var startingHour = i + ampm;
 
@@ -60,6 +62,7 @@ for (var i = 9; i < 18; i++) {
     hour.append(save);
     
     $(".container").append(hour);
+
 }}
 
 //TODO: Save click event to localstorage
@@ -70,11 +73,15 @@ $(".container").on("click", '.saveBtn', function (event) {
         // console.log(textArea);
         // console.log(timeArea);
         // console.log(theDay);
+    
+    //Reseting savearray
+    // savedEvents = JSON.parse(localStorage.getItem("SavedEvents"));
     //push to object the savedEvents array
+    console.log(savedEvents);
     task.eventTime = timeArea;
     task.eventDescription = textArea;
     task.eventDay = theDay;
-        // console.log(task);
+         console.log(task);
     savedEvents.push(task);
         // console.log(savedEvents);
     var stringOfSaves = JSON.stringify(savedEvents);
@@ -85,12 +92,18 @@ $(".container").on("click", '.saveBtn', function (event) {
 getEvents();
 //TODO:// Get info from saved events
 function getEvents () {
-    var todaysEvents = JSON.parse(localStorage.getItem("SavedEvents"))
-        console.log(todaysEvents);
-   for( var j = 0; j < getEvents.length; j++) {
-    if (todaysEvents[j].eventDay = currentDay) {
-        var newTime = todaysEvents[j].eventTime;
-        console.log(todaysEvents[j].eventTime);
-        console.log(todaysEvents[j].eventDescription);
-        document.getElementById(newTime).textContent = todaysEvents[j].eventDescription;
-    }}}
+         savedEvents = JSON.parse(localStorage.getItem("SavedEvents"));
+    if (savedEvents != null) {
+
+   for( var j = 0; j < savedEvents.length; j++) {
+    var getTime = savedEvents[j].eventTime;
+    var getDescription = savedEvents[j].eventDescription;
+    var getDay = savedEvents[j].eventDay;
+
+    if (getDay = currentDay) {
+        
+        document.getElementById(getTime).textContent = getDescription;
+    }
+    else {
+
+    }}}}
