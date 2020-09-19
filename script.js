@@ -1,23 +1,25 @@
 
 //TODO: Set current date in top p tag
 
-var today = moment().format('MMMM Do YYYY, h:mm a');
-console.log(today);
+var today = moment().format('MMMM Do YYYY, H:mm a');
+    // console.log(today);
+var currentDay = moment().format('l');
 //Create Current day at top of page
 $("#currentDay").text(today);
 var currentTime = Number(moment().format('H'));
-console.log(currentTime);
+    // console.log(currentTime);
 //TODO:// Create an Array to Save Events
-var savedEvents = [];
+var savedEvents = [{}];
 var task = {
     eventTime: " ",
-    eventDescription: " "
-    }
+    eventDescription: " ",
+    eventDay: " "
+}
 
 //TODO: Create grid and buttons to save
 todayEvents();
 function todayEvents() {
-for (var i = 9; i < 19; i++) {
+for (var i = 9; i < 18; i++) {
     //Creating elements for each variable and setting classes and attibutes
     if (i >= 12) {
         var ampm = "PM";
@@ -27,16 +29,16 @@ for (var i = 9; i < 19; i++) {
     }
     var startingHour = i + ampm;
 
-    console.log(i);
-    console.log(startingHour);
+        // console.log(i);
+        // console.log(startingHour);
     //Create Row for each event
     var hour = $("<section>").addClass("row time-block");
     //Create Hour col
-    var time = $("<div>").addClass("col-md-1 hour font-weight-bold").attr("id", "time" + i);
+    var time = $("<div>").addClass("col-md-1 hour font-weight-bold");
     //Create descrition text area
-    var userEvent = $("<textarea>").addClass("col-md-8 description").attr("id", "description" + i);
+    var userEvent = $("<textarea>").addClass("col-md-8 description").attr("id", i + ampm);
     //Create button
-    var save = $("<button>").addClass("col-md-1 saveBtn").attr("id", "save" + i);
+    var save = $("<button>").addClass("col-md-1 saveBtn");
     //Create icon
     var btn = $("<i>").addClass("far fa-save").attr( "i", "hover");
     //Create color code for past/present/future
@@ -64,15 +66,31 @@ for (var i = 9; i < 19; i++) {
 $(".container").on("click", '.saveBtn', function (event) {
     var textArea = $(this).siblings('textarea').val().trim();
     var timeArea = $(this).siblings('div').text();
-        console.log(textArea);
-        console.log(timeArea);
-    //push to object
+    var theDay = moment().format('l');
+        // console.log(textArea);
+        // console.log(timeArea);
+        // console.log(theDay);
+    //push to object the savedEvents array
     task.eventTime = timeArea;
     task.eventDescription = textArea;
-        console.log(task);
+    task.eventDay = theDay;
+        // console.log(task);
     savedEvents.push(task);
-        console.log(savedEvents);
+        // console.log(savedEvents);
     var stringOfSaves = JSON.stringify(savedEvents);
-        console.log(stringOfSaves);
-    localStorage.setItem("Saved Events", stringOfSaves);
+        // console.log(stringOfSaves);
+    localStorage.setItem("SavedEvents", stringOfSaves);
 })
+//Getting localStorage before saving
+getEvents();
+//TODO:// Get info from saved events
+function getEvents () {
+    var todaysEvents = JSON.parse(localStorage.getItem("SavedEvents"))
+        console.log(todaysEvents);
+   for( var j = 0; j < getEvents.length; j++) {
+    if (todaysEvents[j].eventDay = currentDay) {
+        var newTime = todaysEvents[j].eventTime;
+        console.log(todaysEvents[j].eventTime);
+        console.log(todaysEvents[j].eventDescription);
+        document.getElementById(newTime).textContent = todaysEvents[j].eventDescription;
+    }}}
